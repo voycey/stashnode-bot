@@ -46,9 +46,9 @@ class Transaction(object):
         #     int cmp = a.hash.Compare(b.hash);
         #     return cmp < 0 || (cmp == 0 && a.n < b.n);
         # }
-        # https://github.com/StashCash/stashcash/blob/1.1.1/src/uint256.h#L45
-        # https://github.com/StashCash/stashcash/blob/1.1.1/src/primitives/transaction.h#L38
-        # https://github.com/StashCash/stashcash/blob/1.1.1/src/primitives/transaction.h#L126
+        # https://github.com/Stashpay/stashpay/blob/1.1.1/src/uint256.h#L45
+        # https://github.com/Stashpay/stashpay/blob/1.1.1/src/primitives/transaction.h#L38
+        # https://github.com/Stashpay/stashpay/blob/1.1.1/src/primitives/transaction.h#L126
         compare = memcmp(bytes.fromhex(self.hash), bytes.fromhex(other.hash),len(bytes.fromhex(self.hash)))
         print(compare)
         return compare < 0 or ( compare == 0 and self.index < other.index )

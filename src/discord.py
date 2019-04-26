@@ -40,13 +40,13 @@ from src.commandhandler import user
 from src.commandhandler import common
 from src.stashexplorer import WebExplorer
 
-from stashcash.rewardlist import SNReward
+from stashpay.rewardlist import SNReward
 
 logger = logging.getLogger("bot")
 
 class StashNodeBotDiscord(object):
 
-    def __init__(self, botToken, admins, password, db, nodeList, rewardList):
+    def __init__(self, botToken, admins, password, db, nodeList):
 
         # Currently only used for markdown
         self.messenger = "discord"
@@ -65,9 +65,9 @@ class StashNodeBotDiscord(object):
         self.nodeList.nodeChangeCB = self.nodeUpdateCB
         self.nodeList.adminCB = self.adminCB
         # Store and setup the nodereward list
-        self.rewardList = rewardList
-        self.rewardList.rewardCB = self.rewardCB
-        self.rewardList.errorCB = self.rewardListErrorCB
+        #self.rewardList = rewardList
+        # self.rewardList.rewardCB = self.rewardCB
+        # self.rewardList.errorCB = self.rewardListErrorCB
         # Create the WebExplorer
         self.explorer = WebExplorer(self.balancesCB)
         self.balanceChecks = {}
@@ -117,7 +117,7 @@ class StashNodeBotDiscord(object):
 
         asyncio.run_coroutine_threadsafe(self.client.close(), loop=self.client.loop)
 
-        self.rewardList.stop()
+        # self.rewardList.stop()
         self.nodeList.stop()
 
     ######
@@ -199,7 +199,7 @@ class StashNodeBotDiscord(object):
                 #     self.aberration = 1 - ( nList / total)
 
                 # Start the rewardlist updates
-                self.rewardList.start()
+                # self.rewardList.start()
                 # Start the nodelist updates
                 nodeList.start()
 
@@ -208,7 +208,7 @@ class StashNodeBotDiscord(object):
             # Advise the admin about the reconnect
             self.adminCB("**Bot reconnected**")
 
-            self.rewardList.resume()
+            # self.rewardList.resume()
 
     async def on_resumed(self):
         logger.info("Resumed")
@@ -498,7 +498,7 @@ class StashNodeBotDiscord(object):
 
 
     ######
-    # Callback which get called when there is a new releases in the stashcash repo.
+    # Callback which get called when there is a new releases in the stashpay repo.
     #
     # Called by: Nothing yet, StashGitHubUpdates later.
     #
@@ -507,7 +507,7 @@ class StashNodeBotDiscord(object):
 
         for user in self.database.getUsers():
             self.sendMessage(user['id'], ("*Node update available*\n\n"
-                                         "https://github.com/StashCash/stashcash/releases/tag/{}").format(tag))
+                                         "https://github.com/Stashpay/stashpay/releases/tag/{}").format(tag))
 
 
     ######
@@ -534,7 +534,7 @@ class StashNodeBotDiscord(object):
     # Callback for evaluating if someone in the database has won the reward
     # and send messages to all chats with activated notifications
     #
-    # Called by: SNRewardList from python-stashcash
+    # Called by: SNRewardList from python-stashpay
     #
     ######
     def rewardCB(self, reward, distance):
@@ -560,7 +560,7 @@ class StashNodeBotDiscord(object):
     ######
     # Callback for SNRewardList errors
     #
-    # Called by: SNRewardList from python-stashcash
+    # Called by: SNRewardList from python-stashpay
     #
     ######
     def rewardListErrorCB(self, error):

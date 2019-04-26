@@ -87,14 +87,14 @@ def info(bot, update):
             preEnabled = nodeList.preEnabled
             expired = nodeList.expired
             newStartRequired = nodeList.newStartRequired
-            qualifiedNormal = nodeList.qualifiedNormal
-            qualifiedUpgrade = nodeList.qualifiedUpgrade
-            upgradeModeDuration = nodeList.remainingUpgradeModeDuration
-            protocolRequirement = nodeList.protocolRequirement()
-            protocolOld = nodeList.count(nodeList.oldProtocol)
-            protocolNew = nodeList.count(nodeList.newProtocol)
-            initialWait = nodeList.minimumUptime()
-            minPosition = int(enabled * 0.1)
+            # qualifiedNormal = nodeList.qualifiedNormal
+            # qualifiedUpgrade = nodeList.qualifiedUpgrade
+            # upgradeModeDuration = nodeList.remainingUpgradeModeDuration
+            # protocolRequirement = nodeList.protocolRequirement()
+            # protocolOld = nodeList.count(nodeList.oldProtocol)
+            # protocolNew = nodeList.count(nodeList.newProtocol)
+            # initialWait = nodeList.minimumUptime()
+            # minPosition = int(enabled * 0.1)
             aberration = bot.aberration
 
             # Fallback if for whatever reason the top node could not filtered which
@@ -120,16 +120,16 @@ def info(bot, update):
                                               enabled,
                                               expired,
                                               newStartRequired,
-                                              qualifiedNormal,
-                                              qualifiedUpgrade,
-                                              upgradeModeDuration,
-                                              protocolRequirement,
-                                              nodeList.oldProtocol,
-                                              nodeList.newProtocol,
-                                              protocolOld,
-                                              protocolNew,
-                                              util.secondsToText(initialWait),
-                                              top10Time,
+                                              # qualifiedNormal,
+                                              # qualifiedUpgrade,
+                                              # upgradeModeDuration,
+                                              # protocolRequirement,
+                                              # nodeList.oldProtocol,
+                                              # nodeList.newProtocol,
+                                              # protocolOld,
+                                              # protocolNew,
+                                              # util.secondsToText(initialWait),
+                                              # top10Time,
                                               aberration)
 
         else:

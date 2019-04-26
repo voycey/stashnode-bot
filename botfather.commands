@@ -3,7 +3,7 @@ info - Print the current status of the StashNode network
 faq - Print the frequently asked question
 detail - List all details of your nodes
 nodes - List the status and last payments of your nodes
-balance - Print the SMART balances of your StashNodes
+balance - Print the balances of your StashNodes
 history - Print the past payouts of your StashNodes
 top - Print the top X percent of your nodes in terms of position
 lookup - Check the payout requirements of one or multiple nodes by their IP's

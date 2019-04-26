@@ -32,7 +32,7 @@ from src.validateaddress import validate as validateAddress
 import telegram
 import discord
 
-from stashcash.rewardlist import SNReward
+from stashpay.rewardlist import SNReward
 
 HF_1_2_MULTINODE_PAYMENTS = 545005
 
@@ -347,7 +347,7 @@ def detail(bot, update):
                 response += "\n  `Last payout (Time)` " + stashnode.payoutTimeString()
                 response += "\n  `Protocol` {}".format(stashnode.protocol)
                 #response += "\n  `Rank` {}".format(stashnode.rank)
-                response += "\n  " + messages.link(bot.messenger, 'https://explorer.stashcash.cc/address/{}'.format(stashnode.payee),'Open the explorer!')
+                response += "\n  " + messages.link(bot.messenger, 'https://explorer.stashpay.io/address/{}'.format(stashnode.payee),'Open the explorer!')
                 response += "\n\n"
 
     return response
@@ -398,7 +398,7 @@ def nodes(bot, update):
                 response += "\nPosition " + messages.markdown(stashnode.positionString(minimumUptime, top10),bot.messenger)
                 response += "\nLast seen " + util.secondsToText( int(time.time()) - stashnode.lastSeen)
                 response += "\nLast payout " + stashnode.payoutTimeString()
-                response += "\n" + messages.link(bot.messenger, 'https://explorer.stashcash.cc/address/{}'.format(stashnode.payee),'Open the explorer!')
+                response += "\n" + messages.link(bot.messenger, 'https://explorer.stashpay.io/address/{}'.format(stashnode.payee),'Open the explorer!')
                 response += "\n\n"
 
     return response
@@ -574,7 +574,7 @@ def top(bot, update, args):
 
                     response += "<b>" + userNode['name'] + "<b>"
                     response += "\nPosition " + messages.markdown(stashnode.positionString(minimumUptime),bot.messenger)
-                    response += "\n" + messages.link(bot.messenger, 'https://explorer.stashcash.cc/address/{}'.format(stashnode.payee),'Open the explorer!')
+                    response += "\n" + messages.link(bot.messenger, 'https://explorer.stashpay.io/address/{}'.format(stashnode.payee),'Open the explorer!')
                     response += "\n\n"
             else:
                 response += "<b>You have currently no nodes in the top {}% of the queue.<b>\n\n".format(topPercent)

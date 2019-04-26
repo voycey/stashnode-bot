@@ -23,7 +23,7 @@
 ##
 
 import logging
-from stashcash.util import ThreadedSQLite
+from stashpay.util import ThreadedSQLite
 import threading
 import sqlite3 as sql
 

@@ -33,7 +33,7 @@ import logging
 import threading
 import re
 
-from stashcash.rpc import *
+from stashpay.rpc import *
 
 # Index assignment of the "stashnodelist full"
 STATUS_INDEX = 0
@@ -78,18 +78,6 @@ class Transaction(object):
                 self.index == other.index
 
     def __lt__(self, other):
-        # friend bool operator<(const CTxIn& a, const CTxIn& b)
-        # {
-        #     return a.prevout<b.prevout;
-        # }
-        # friend bool operator<(const COutPoint& a, const COutPoint& b)
-        # {
-        #     int cmp = a.hash.Compare(b.hash);
-        #     return cmp < 0 || (cmp == 0 && a.n < b.n);
-        # }
-        # https://github.com/StashCash/stashcash/blob/1.1.1/src/uint256.h#L45
-        # https://github.com/StashCash/stashcash/blob/1.1.1/src/primitives/transaction.h#L38
-        # https://github.com/StashCash/stashcash/blob/1.1.1/src/primitives/transaction.h#L126
         compare = util.memcmp(bytes.fromhex(self.hash), bytes.fromhex(other.hash),len(bytes.fromhex(self.hash)))
         return compare < 0 or ( compare == 0 and self.index < other.index )
 
@@ -325,7 +313,7 @@ class StashNodeList(object):
         self.winnersListSynced = False
 
         self.db = db
-        self.rpc = StashCashRPC(rpcConfig)
+        self.rpc = StashpayRPC(rpcConfig)
 
         self.nodeChangeCB = None
         self.networkCB = None
@@ -649,7 +637,7 @@ class StashNodeList(object):
         ## Update the the position indicator of the node
         #
         # CURRENTL MISSING:
-        #   https://github.com/StashCash/stashcash/blob/1.1.1/src/stashnode/stashnodeman.cpp#L554
+        #   https://github.com/Stashpay/stashpay/blob/1.1.1/src/stashnode/stashnodeman.cpp#L554
         #####
 
         def calculatePositions(upgradeMode):
@@ -660,11 +648,11 @@ class StashNodeList(object):
 
                 if (self.lastBlock - node.collateral.block) < self.minimumConfirmations():
                     node.updatePosition(POS_COLLATERAL_AGE)
-                elif node.protocol < protocolRequirement:# https://github.com/StashCash/Core-Stash/blob/44b5543d0e05be27405bdedcc72b4361cee8129d/src/stashnode/stashnodeman.cpp#L551
+                elif node.protocol < protocolRequirement:# https://github.com/Stashpay/Core-Stash/blob/44b5543d0e05be27405bdedcc72b4361cee8129d/src/stashnode/stashnodeman.cpp#L551
                     node.updatePosition(POS_UPDATE_REQUIRED)
-                elif not upgradeMode and node.activeSeconds < self.minimumUptime():# https://github.com/StashCash/Core-Stash/blob/44b5543d0e05be27405bdedcc72b4361cee8129d/src/stashnode/stashnodeman.cpp#L557
+                elif not upgradeMode and node.activeSeconds < self.minimumUptime():# https://github.com/Stashpay/Core-Stash/blob/44b5543d0e05be27405bdedcc72b4361cee8129d/src/stashnode/stashnodeman.cpp#L557
                     node.updatePosition(POS_TOO_NEW)
-                elif node.status != 'ENABLED': # https://github.com/StashCash/Core-Stash/blob/44b5543d0e05be27405bdedcc72b4361cee8129d/src/stashnode/stashnodeman.cpp#L548
+                elif node.status != 'ENABLED': # https://github.com/Stashpay/Core-Stash/blob/44b5543d0e05be27405bdedcc72b4361cee8129d/src/stashnode/stashnodeman.cpp#L548
                     node.updatePosition(POS_NOT_QUALIFIED)
                 else:
                     self.lastPaidVec.append(LastPaid(node.lastPaidBlock, collateral))
@@ -769,11 +757,11 @@ class StashNodeList(object):
         return 1
 
     def minimumUptime(self):
-        #https://github.com/StashCash/Core-Stash/blob/44b5543d0e05be27405bdedcc72b4361cee8129d/src/stashnode/stashnodeman.cpp#L557
+        #https://github.com/Stashpay/Core-Stash/blob/44b5543d0e05be27405bdedcc72b4361cee8129d/src/stashnode/stashnodeman.cpp#L557
         return ( self.enabledWithMinProtocol() * 55 ) / self.minimumRequirementsScale()
 
     def minimumConfirmations(self):
-        #https://github.com/StashCash/Core-Stash/blob/44b5543d0e05be27405bdedcc72b4361cee8129d/src/stashnode/stashnodeman.cpp#L560
+        #https://github.com/Stashpay/Core-Stash/blob/44b5543d0e05be27405bdedcc72b4361cee8129d/src/stashnode/stashnodeman.cpp#L560
         return self.enabledWithMinProtocol() / self.minimumRequirementsScale()
 
     def enabled(self, protocol = -1):

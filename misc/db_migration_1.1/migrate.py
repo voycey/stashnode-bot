@@ -93,7 +93,7 @@ def getCollateralAge(txhash):
 
     try:
 
-        result = subprocess.check_output(['stashcash-cli', 'getrawtransaction',txhash, '1'])
+        result = subprocess.check_output(['stashpay-cli', 'getrawtransaction',txhash, '1'])
         rawTx = json.loads(result.decode('utf-8'))
 
     except Exception as e:
@@ -107,7 +107,7 @@ def getCollateralAge(txhash):
 
     try:
 
-        result = subprocess.check_output(['stashcash-cli', 'getblock',blockHash])
+        result = subprocess.check_output(['stashpay-cli', 'getblock',blockHash])
         block = json.loads(result.decode('utf-8'))
 
     except Exception as e:

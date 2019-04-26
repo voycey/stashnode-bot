@@ -34,8 +34,8 @@ from src import discord
 
 from src.stashnodes import StashNodeList
 
-from stashcash.rpc import RPCConfig
-from stashcash.rewardlist import SNRewardList
+from stashpay.rpc import RPCConfig
+#from stashpay.rewardlist import SNRewardList
 
 __version__ = "2.0"
 
@@ -129,14 +129,14 @@ def main(argv):
     nodeList = StashNodeList(nodedb, rpcConfig)
 
     # Create the stashnode reward list
-    rewardList = SNRewardList(directory + '/rewards.db', rpcConfig)
+    #rewardList = SNRewardList(directory + '/rewards.db', rpcConfig)
 
     nodeBot = None
 
     if config.get('bot', 'app') == 'telegram':
-        nodeBot = telegram.StashNodeBotTelegram(config.get('bot','token'), admins, password, botdb, nodeList, rewardList)
+        nodeBot = telegram.StashNodeBotTelegram(config.get('bot','token'), admins, password, botdb, nodeList)
     elif config.get('bot', 'app') == 'discord':
-        nodeBot = discord.StashNodeBotDiscord(config.get('bot','token'), admins, password, botdb, nodeList, rewardList)
+        nodeBot = discord.StashNodeBotDiscord(config.get('bot','token'), admins, password, botdb, nodeList)
     else:
         sys.exit("You need to set 'telegram' or 'discord' as 'app' in the configfile.")
 

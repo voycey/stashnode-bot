@@ -89,10 +89,10 @@ class WebExplorer(StashExplorer):
         super().__init__(balancesCB)
 
         self.lastUrl = 0
-        self.urls = {'https://explorer.stashcash.cc':  lockForever,\
-                     'https://explorer2.stashcash.cc': lockForever,\
-                     'https://explorer3.stashcash.cc': lockForever,\
-                     'https://api-explorer.stashcash.cc': None}
+        self.urls = {'https://explorer.stashpay.io':  lockForever,\
+                     'https://explorer2.stashpay.io': lockForever,\
+                     'https://explorer3.stashpay.io': lockForever,\
+                     'https://api-explorer.stashpay.io': None}
 
         self.urlLockSeconds = 3600
         self.session = FuturesSession(max_workers=20)

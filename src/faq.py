@@ -123,7 +123,7 @@ def collateral(bot):
 
         return (
         "A too new collateral means that your nodes collateral transaction (the 100k one) does not"
-        " have the minimum required number of confirmations in the StashCash blockchain."
+        " have the minimum required number of confirmations in the Stashpay blockchain."
         "This number of confirmations is currently <b>{}<b>.\nYour collateral gets 1 confirmation with each"
         " new mined block.\n\nMeans right now you need to wait {} x 55 seconds => <b>~{}<b> until"
         " your collateral transaction matches the requirement.\n\n"
@@ -188,7 +188,7 @@ def rewards(bot):
         "Each block with an <b>even<b> blockheight one of the the nodes receive this reward for 2 blocks. With the current "
         "estimated payout interval of <b>{}<b> you can expect roughly"
         " <b>{:,} SMART<b> per month per StashNode. This can vary a bit upwards and downwards though.\n\n"
-        "Due to the constant increase of the <c>blockHeight<c> of the StashCash blockchain"
+        "Due to the constant increase of the <c>blockHeight<c> of the Stashpay blockchain"
         " the rewards will decrease a little bit every 55 seconds."
         " Also the increase of the number of qualified nodes will increase the payout interval."
         " As result your monthly payout will slightly decrease over the time.\n\n"
@@ -201,24 +201,24 @@ def status(bot):
 
     return (
     "First you should check your node's status by running "
-    "<c>stashcash-cli stashnode status<c> on your node's VPS.\n\n"
+    "<c>stashpay-cli stashnode status<c> on your node's VPS.\n\n"
     "The status of your node can hint towards the problem of why your "
     "node isn't running. Here are the known states and their likely causes:\n\n"
     "<b>Node just started, not yet activated<b>\n\n"
     "Simply means your blocks aren't up-to-date yet with the current "
-    "blockcount. Run <c>stashcash-cli getinfo<c> on the VPS to see your current "
+    "blockcount. Run <c>stashpay-cli getinfo<c> on the VPS to see your current "
     "blockHeight at <c>blocks<c>, and compare it to the current blockHeight that "
     "you can see when you send me <cb>info<ca>\n\n"
     "<b>Broadcast IP doesn't match external IP<b>\n\n"
     "Most likely culprit is a duplicate IP/genkey/txhash in the "
     "config file. Verify that all node entries in the <c>stashnode.conf<c> file "
     " have a unique IP/genkey/txhash+id. If your VPS has multiple IP's, adding "
-    "externalip=yourNodeIP in the <c>stashcash.conf<c> of a daemon will direct it"
+    "externalip=yourNodeIP in the <c>stashpay.conf<c> of a daemon will direct it"
     " towards the IP you specified.\n\n"
     "<b>Not capable stashnode: invalid protocol version<b>\n\n"
     "Your node is not up-to-date on the latest version. Compare the version you"
-    " see when you run <c>stashcash-cli getinfo<c> at <c>version<c> to the latest version at ") +\
-    messages.link(bot.messenger, "https://stashcash.cc/wallets/", "StashCash wallets") +\
+    " see when you run <c>stashpay-cli getinfo<c> at <c>version<c> to the latest version at ") +\
+    messages.link(bot.messenger, "https://stashpay.io/wallets/", "Stashpay wallets") +\
     (" for more info on the current version.\n\n"
     "<b>Not capable stashnode: stashnode not in stashnodelist<b>\n\n"
     "The node hasn't yet connected to the network. This can have "

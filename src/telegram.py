@@ -43,7 +43,7 @@ from src.commandhandler import user
 from src.commandhandler import common
 from src.stashexplorer import WebExplorer
 
-from stashcash.rewardlist import SNReward
+from stashpay.rewardlist import SNReward
 
 logger = logging.getLogger("bot")
 
@@ -302,7 +302,7 @@ class MessagingMachine(object):
 
 class StashNodeBotTelegram(object):
 
-    def __init__(self, botToken, admins, password, db, nodeList, rewardList):
+    def __init__(self, botToken, admins, password, db, nodeList):
 
         # Currently only used for markdown
         self.messenger = "telegram"
@@ -319,9 +319,9 @@ class StashNodeBotTelegram(object):
         self.nodeList.nodeChangeCB = self.nodeUpdateCB
         self.nodeList.adminCB = self.adminCB
         # Store and setup the nodereward list
-        self.rewardList = rewardList
-        self.rewardList.rewardCB = self.rewardCB
-        self.rewardList.errorCB = self.rewardListErrorCB
+        #self.rewardList = rewardList
+        # self.rewardList.rewardCB = self.rewardCB
+        # self.rewardList.errorCB = self.rewardListErrorCB
         # Create the WebExplorer
         self.explorer = WebExplorer(self.balancesCB)
         self.balanceChecks = {}
@@ -419,7 +419,7 @@ class StashNodeBotTelegram(object):
             #     self.aberration = 1 - ( nList / total)
 
             # Start the rewardlist updates
-            self.rewardList.start()
+            # self.rewardList.start()
             # Start the nodelist updates
             nodeList.start()
 
@@ -690,7 +690,7 @@ class StashNodeBotTelegram(object):
 
 
     ######
-    # Callback which get called when there is a new releases in the stashcash repo.
+    # Callback which get called when there is a new releases in the stashpay repo.
     #
     # Called by: Nothing yet, StashGitHubUpdates later.
     #
@@ -699,7 +699,7 @@ class StashNodeBotTelegram(object):
 
         for dbUser in self.database.getUsers():
             self.sendMessage(dbUser['id'], ("*Node update available*\n\n"
-                                         "https://github.com/StashCash/stashcash/releases/tag/{}").format(tag))
+                                         "https://github.com/Stashpay/stashpay/releases/tag/{}").format(tag))
 
     ######
     # Callback for evaluating if someone in the database had an upcomming event
@@ -720,7 +720,7 @@ class StashNodeBotTelegram(object):
     # Callback for evaluating if someone in the database has won the reward
     # and send messages to all chats with activated notifications
     #
-    # Called by: SNRewardList from python-stashcash
+    # Called by: SNRewardList from python-stashpay
     #
     ######
     def rewardCB(self, reward, synced):
@@ -736,7 +736,7 @@ class StashNodeBotTelegram(object):
     # Callback for evaluating if someone in the database has won the reward
     # and send messages to all chats with activated notifications
     #
-    # Called by: SNRewardList from python-stashcash
+    # Called by: SNRewardList from python-stashpay
     #
     ######
     def rewardCB(self, reward, distance):
@@ -757,7 +757,7 @@ class StashNodeBotTelegram(object):
     ######
     # Callback for SNRewardList errors
     #
-    # Called by: SNRewardList from python-stashcash
+    # Called by: SNRewardList from python-stashpay
     #
     ######
     def rewardListErrorCB(self, error):

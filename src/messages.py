@@ -100,31 +100,32 @@ def link(messenger, link, text = ''):
 
 def welcome(messenger):
     message =  "💥 <u><b>Welcome<b><u> 💥\n\n"
-    message += "I am a bot..you can use me to monitor your StashNodes! This will allow you to "
-    message += "subscribe notifications about downtimes, changes of your nodes's metrics "
-    message += "or payouts your nodes received!\n\nTherefor you may want to add your"
+    message += "I am a bot.. Bleep bloop, you can use me to monitor your Stash Masternodes! This will allow you to "
+    message += "subscribe to notifications about downtimes, changes to your nodes's metrics "
+    message += "or payouts your nodes received!\n\nIn order for this to work you will need to add your"
     message += " nodes here with the <cb>add<ca> command. To do this just send me <cb>add IP;NAME<ca>, replace "
     message += "<c>IP<c> with the IP-Address of your node and "
     message += "<c>NAME<c> with the name you want to give your node.\n\n"
     message += "Example: <cb>add 212.212.212.212;Node1<ca>\n\n"
-    message += "After that you can send me some more commands to configure the"
-    message += " the notifications or check your nodes metrics.\n\n"
+    message += "After that you can send me some more commands to configure"
+    message += " notifications or check your nodes metrics.\n\n"
     message += " Examples:\n"
     message += "  <b>-<b> <cb>detail<ca> To get a detailed view of your nodes\n"
-    message += "  <b>-<b> <cb>balance<ca> To check your nodes SMART balances\n"
+    message += "  <b>-<b> <cb>balance<ca> To check your nodes Stash balances\n"
     message += "  <b>-<b> <cb>history<ca> To show information about your payout history\n\n"
     message += " To get a full list of the possible commands just send me <cb>help<ca>\n\n"
-    message += "If you want to support my creator, its @dustinface ✌️\n\n"
-    message += "☕️ & 🍺 => <b>STsDhYJZZrVFCaA5FX2AYWP27noYo3RUjD<b>"
+    message += " Please be aware this is a super alpha Bot - it is likely to be buggy to start with\n\n"
+    message += "If you want to support my creator (@the1dv) \n\n"
+    message += "☕️ & 🍺 => <b>XttvnvThiDBZpvGEwp6zDXKK7B5uJUwDVs<b>"
 
     return markdown(message, messenger)
 
 def help(messenger):
 
-    helpMsg =  ("You can use this bot to monitor your StashNodes and subscribe event notifications. "
+    helpMsg =  ("You can use this bot to monitor your Stash Masternodes and subscribe to event notifications. "
                 "Once you added your nodes with <cb>add<ca> and enabled the desired notifications"
                 " with the commands below you will receive a message from the bot on each "
-                "occured event!\n\n"
+                "event that occurs!\n\n"
                 "<b>Common commands<b>\n\n"
                 "<cb>help<ca> - Print this help\n"
                 "<cb>info<ca> - Print the current status of the StashNode network\n"
@@ -202,7 +203,7 @@ def networkState(messenger, last, created, preEnabled, enabled, expired, newStar
     ####
     # Check if the network is in upgrade mode.
     #
-    #https://github.com/StashCash/stashcash/blob/1.1.1/src/stashnode/stashnodeman.cpp#L655
+    #https://github.com/Stashpay/stashpay/blob/1.1.1/src/stashnode/stashnodeman.cpp#L655
     ####
     if qualifiedUpgrade != -1:
         message += ("<b>The network is currenty in upgrade mode<b>. Recently started nodes"

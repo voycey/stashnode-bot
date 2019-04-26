@@ -40,15 +40,15 @@ def HashKeccak(x):
 
 def decode_base58(stashAddress, length):
     """Decode a base58 encoded address
-    This form of base58 decoding is stashcashd specific. Be careful outside of
-    stashcashd context.
+    This form of base58 decoding is stashpayd specific. Be careful outside of
+    stashpayd context.
     """
     n = 0
     for char in stashAddress:
         try:
             n = n * 58 + digits58.index(char)
         except:
-            msg = u"Character not part of StashCashs's base58: '%s'"
+            msg = u"Character not part of Stashpays's base58: '%s'"
             raise ValueError(msg % (char,))
 
     return n.to_bytes(length, 'big')
@@ -74,7 +74,7 @@ def encode_base58(bytestring):
     return zeros * '1' + result[::-1]  # reverse string
 
 def validate(stashAddress):
-    """Check the integrity of a stashcash address
+    """Check the integrity of a stashpay address
     Returns False if the address is invalid.
     """
 

@@ -1,4 +1,7 @@
 python-telegram-bot
+pycryptodome
+pycryptodomex
+discord
 requests
 websocket-client
 requests-futures
