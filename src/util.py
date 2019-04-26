@@ -1,5 +1,5 @@
 ##
-# Part of `SmartNodeMonitorBot`
+# Part of `StashNodeMonitorBot`
 #
 # Copyright 2018 dustinface
 #

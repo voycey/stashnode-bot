@@ -1,5 +1,5 @@
 ##
-# Part of `SmartNodeMonitorBot`
+# Part of `StashNodeMonitorBot`
 #
 # Copyright 2018 dustinface
 #
@@ -38,17 +38,17 @@ def HashKeccak(x):
     out = bytes(keccak256(x))
     return out
 
-def decode_base58(smartAddress, length):
+def decode_base58(stashAddress, length):
     """Decode a base58 encoded address
-    This form of base58 decoding is smartcashd specific. Be careful outside of
-    smartcashd context.
+    This form of base58 decoding is stashcashd specific. Be careful outside of
+    stashcashd context.
     """
     n = 0
-    for char in smartAddress:
+    for char in stashAddress:
         try:
             n = n * 58 + digits58.index(char)
         except:
-            msg = u"Character not part of SmartCashs's base58: '%s'"
+            msg = u"Character not part of StashCashs's base58: '%s'"
             raise ValueError(msg % (char,))
 
     return n.to_bytes(length, 'big')
@@ -73,18 +73,18 @@ def encode_base58(bytestring):
         (n, rest) = divmod(n, 58)
     return zeros * '1' + result[::-1]  # reverse string
 
-def validate(smartAddress):
-    """Check the integrity of a smartcash address
+def validate(stashAddress):
+    """Check the integrity of a stashcash address
     Returns False if the address is invalid.
     """
 
-    addressLen = len(smartAddress)
+    addressLen = len(stashAddress)
 
     if addressLen < 27 or addressLen > 35:
         return None
 
     try:
-        decoded = decode_base58(smartAddress, 25)
+        decoded = decode_base58(stashAddress, 25)
     except ValueError:
         return None
 
@@ -93,7 +93,7 @@ def validate(smartAddress):
     if decoded[-4:] != checksum:
         return None
 
-    if smartAddress != encode_base58(decoded):
+    if stashAddress != encode_base58(decoded):
         return None
 
-    return smartAddress
+    return stashAddress

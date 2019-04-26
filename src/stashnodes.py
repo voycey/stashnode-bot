@@ -1,5 +1,5 @@
 ##
-# Part of `SmartNodeMonitorBot`
+# Part of `StashNodeMonitorBot`
 #
 # Copyright 2018 dustinface
 #
@@ -33,9 +33,9 @@ import logging
 import threading
 import re
 
-from smartcash.rpc import *
+from stashcash.rpc import *
 
-# Index assignment of the "smartnodelist full"
+# Index assignment of the "stashnodelist full"
 STATUS_INDEX = 0
 PROTOCOL_INDEX = 1
 PAYEE_INDEX = 2
@@ -45,7 +45,7 @@ PAIDTIME_INDEX = 5
 PAIDBLOCK_INDEX = 6
 IPINDEX_INDEX = 7
 
-# Smartnode position states
+# Stashnode position states
 POS_NOT_QUALIFIED = -1
 POS_CALCULATING = -2
 POS_UPDATE_REQUIRED = -3
@@ -55,7 +55,7 @@ POS_COLLATERAL_AGE = -5
 HF_1_2_MULTINODE_PAYMENTS = 545005
 HF_1_2_8_COLLATERAL_CHANGE = 910000
 
-logger = logging.getLogger("smartnodes")
+logger = logging.getLogger("stashnodes")
 
 transactionRawCheck = re.compile("COutPoint\([\d\a-f]{64},.[\d]{1,}\)")
 transactionStringCheck = re.compile("[\d\a-f]{64}-[\d]{1,}")
@@ -87,9 +87,9 @@ class Transaction(object):
         #     int cmp = a.hash.Compare(b.hash);
         #     return cmp < 0 || (cmp == 0 && a.n < b.n);
         # }
-        # https://github.com/SmartCash/smartcash/blob/1.1.1/src/uint256.h#L45
-        # https://github.com/SmartCash/smartcash/blob/1.1.1/src/primitives/transaction.h#L38
-        # https://github.com/SmartCash/smartcash/blob/1.1.1/src/primitives/transaction.h#L126
+        # https://github.com/StashCash/stashcash/blob/1.1.1/src/uint256.h#L45
+        # https://github.com/StashCash/stashcash/blob/1.1.1/src/primitives/transaction.h#L38
+        # https://github.com/StashCash/stashcash/blob/1.1.1/src/primitives/transaction.h#L126
         compare = util.memcmp(bytes.fromhex(self.hash), bytes.fromhex(other.hash),len(bytes.fromhex(self.hash)))
         return compare < 0 or ( compare == 0 and self.index < other.index )
 
@@ -130,7 +130,7 @@ class LastPaid(object):
 
         return self.transaction < other.transaction
 
-class SmartNode(object):
+class StashNode(object):
 
     def __init__(self, **kwargs):
 
@@ -295,7 +295,7 @@ class SmartNode(object):
 
         return False
 
-class SmartNodeList(object):
+class StashNodeList(object):
 
     def __init__(self, db, rpcConfig):
 
@@ -325,7 +325,7 @@ class SmartNodeList(object):
         self.winnersListSynced = False
 
         self.db = db
-        self.rpc = SmartCashRPC(rpcConfig)
+        self.rpc = StashCashRPC(rpcConfig)
 
         self.nodeChangeCB = None
         self.networkCB = None
@@ -334,7 +334,7 @@ class SmartNodeList(object):
         dbList = self.db.getNodes()
 
         for entry in dbList:
-                node = SmartNode.fromDb(entry)
+                node = StashNode.fromDb(entry)
                 self.nodes[node.collateral] = node
 
     def __enter__(self):
@@ -348,21 +348,21 @@ class SmartNodeList(object):
         self.release()
 
     def acquire(self):
-        logger.info("SmartNodeList acquire")
+        logger.info("StashNodeList acquire")
         self.nodeListSem.acquire()
 
     def release(self):
-        logger.info("SmartNodeList release")
+        logger.info("StashNodeList release")
         self.nodeListSem.release()
 
     def start(self):
 
         if not self.running:
-            logger.info("Start SmartNodeList!")
+            logger.info("Start StashNodeList!")
             self.running = True
             self.startTimer(5)
         else:
-            raise Exception("SmartNodeList already started!")
+            raise Exception("StashNodeList already started!")
 
     def stop(self):
 
@@ -435,7 +435,7 @@ class SmartNodeList(object):
         #   "enableTime": 1099511627775,
         #   "activeProtocol": 90028
         # }
-        status = self.rpc.raw("smartnode",['protocol'])
+        status = self.rpc.raw("stashnode",['protocol'])
 
         if status.error:
             msg = "updateProtocolRequirement failed: {}".format(str(status.error))
@@ -467,7 +467,7 @@ class SmartNodeList(object):
             return False
 
         self.chainSynced = status.data['IsBlockchainSynced']
-        self.nodeListSynced = status.data['IsSmartnodeListSynced']
+        self.nodeListSynced = status.data['IsStashnodeListSynced']
         self.winnersListSynced = status.data['IsWinnersListSynced']
 
         return True
@@ -500,7 +500,7 @@ class SmartNodeList(object):
         removedNodes = []
 
         info = self.rpc.getInfo()
-        rpcNodes = self.rpc.getSmartNodeList('full')
+        rpcNodes = self.rpc.getStashNodeList('full')
 
         if info.error:
             msg = "updateList getInfo: {}".format(str(info.error))
@@ -513,7 +513,7 @@ class SmartNodeList(object):
             self.lastBlock = info.data["blocks"]
 
         if rpcNodes.error:
-            msg = "updateList getSmartNodeList: {}".format(str(rpcNodes.error))
+            msg = "updateList getStashNodeList: {}".format(str(rpcNodes.error))
             logging.error(msg)
             self.pushAdmin(msg)
             return False
@@ -552,7 +552,7 @@ class SmartNodeList(object):
                 collateral.updateBlock(self.getCollateralAge(collateral.hash))
 
                 logger.info("Add node {}".format(key))
-                insert = SmartNode.fromRaw(collateral, data)
+                insert = StashNode.fromRaw(collateral, data)
 
                 id = self.db.addNode(collateral,insert)
 
@@ -649,7 +649,7 @@ class SmartNodeList(object):
         ## Update the the position indicator of the node
         #
         # CURRENTL MISSING:
-        #   https://github.com/SmartCash/smartcash/blob/1.1.1/src/smartnode/smartnodeman.cpp#L554
+        #   https://github.com/StashCash/stashcash/blob/1.1.1/src/stashnode/stashnodeman.cpp#L554
         #####
 
         def calculatePositions(upgradeMode):
@@ -660,11 +660,11 @@ class SmartNodeList(object):
 
                 if (self.lastBlock - node.collateral.block) < self.minimumConfirmations():
                     node.updatePosition(POS_COLLATERAL_AGE)
-                elif node.protocol < protocolRequirement:# https://github.com/SmartCash/Core-Smart/blob/44b5543d0e05be27405bdedcc72b4361cee8129d/src/smartnode/smartnodeman.cpp#L551
+                elif node.protocol < protocolRequirement:# https://github.com/StashCash/Core-Stash/blob/44b5543d0e05be27405bdedcc72b4361cee8129d/src/stashnode/stashnodeman.cpp#L551
                     node.updatePosition(POS_UPDATE_REQUIRED)
-                elif not upgradeMode and node.activeSeconds < self.minimumUptime():# https://github.com/SmartCash/Core-Smart/blob/44b5543d0e05be27405bdedcc72b4361cee8129d/src/smartnode/smartnodeman.cpp#L557
+                elif not upgradeMode and node.activeSeconds < self.minimumUptime():# https://github.com/StashCash/Core-Stash/blob/44b5543d0e05be27405bdedcc72b4361cee8129d/src/stashnode/stashnodeman.cpp#L557
                     node.updatePosition(POS_TOO_NEW)
-                elif node.status != 'ENABLED': # https://github.com/SmartCash/Core-Smart/blob/44b5543d0e05be27405bdedcc72b4361cee8129d/src/smartnode/smartnodeman.cpp#L548
+                elif node.status != 'ENABLED': # https://github.com/StashCash/Core-Stash/blob/44b5543d0e05be27405bdedcc72b4361cee8129d/src/stashnode/stashnodeman.cpp#L548
                     node.updatePosition(POS_NOT_QUALIFIED)
                 else:
                     self.lastPaidVec.append(LastPaid(node.lastPaidBlock, collateral))
@@ -720,10 +720,10 @@ class SmartNodeList(object):
         if not self.synced():
             return False
 
-        ranks = self.rpc.getSmartNodeList('rank')
+        ranks = self.rpc.getStashNodeList('rank')
 
         if ranks.error:
-            msg = "updateRanks getSmartNodeList: {}".format(str(ranks.error))
+            msg = "updateRanks getStashNodeList: {}".format(str(ranks.error))
             logging.error(msg)
             self.pushAdmin(msg)
             return False
@@ -769,11 +769,11 @@ class SmartNodeList(object):
         return 1
 
     def minimumUptime(self):
-        #https://github.com/SmartCash/Core-Smart/blob/44b5543d0e05be27405bdedcc72b4361cee8129d/src/smartnode/smartnodeman.cpp#L557
+        #https://github.com/StashCash/Core-Stash/blob/44b5543d0e05be27405bdedcc72b4361cee8129d/src/stashnode/stashnodeman.cpp#L557
         return ( self.enabledWithMinProtocol() * 55 ) / self.minimumRequirementsScale()
 
     def minimumConfirmations(self):
-        #https://github.com/SmartCash/Core-Smart/blob/44b5543d0e05be27405bdedcc72b4361cee8129d/src/smartnode/smartnodeman.cpp#L560
+        #https://github.com/StashCash/Core-Stash/blob/44b5543d0e05be27405bdedcc72b4361cee8129d/src/stashnode/stashnodeman.cpp#L560
         return self.enabledWithMinProtocol() / self.minimumRequirementsScale()
 
     def enabled(self, protocol = -1):

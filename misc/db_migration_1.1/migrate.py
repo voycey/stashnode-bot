@@ -61,7 +61,7 @@ def migrate():
 
     logger.info("{} user in 1.0".format(len(botDB_v10_users)))
     logger.info("{} user-nodes in 1.0".format(len(botDB_v10_nodes)))
-    logger.info("{} smartnodes in 1.0\n".format(len(nodesDB_v10_nodes)))
+    logger.info("{} stashnodes in 1.0\n".format(len(nodesDB_v10_nodes)))
 
     for node in botDB_v10_nodes:
 
@@ -75,7 +75,7 @@ def migrate():
 
     logger.info("{} users in 1.1".format(len(botDB_v11.getUsers())))
     logger.info("{} user-nodes in 1.1".format(len(botDB_v11.getAllNodes())))
-    logger.info("{} smartnodes in 1.1".format(len(nodesDB_v11.getNodes())))
+    logger.info("{} stashnodes in 1.1".format(len(nodesDB_v11.getNodes())))
 
 
 
@@ -93,7 +93,7 @@ def getCollateralAge(txhash):
 
     try:
 
-        result = subprocess.check_output(['smartcash-cli', 'getrawtransaction',txhash, '1'])
+        result = subprocess.check_output(['stashcash-cli', 'getrawtransaction',txhash, '1'])
         rawTx = json.loads(result.decode('utf-8'))
 
     except Exception as e:
@@ -107,7 +107,7 @@ def getCollateralAge(txhash):
 
     try:
 
-        result = subprocess.check_output(['smartcash-cli', 'getblock',blockHash])
+        result = subprocess.check_output(['stashcash-cli', 'getblock',blockHash])
         block = json.loads(result.decode('utf-8'))
 
     except Exception as e:

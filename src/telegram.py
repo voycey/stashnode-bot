@@ -1,5 +1,5 @@
 ##
-# Part of `SmartNodeMonitorBot`
+# Part of `StashNodeMonitorBot`
 #
 # Copyright 2018 dustinface
 #
@@ -41,9 +41,9 @@ from src import faq as questions
 from src.commandhandler import node
 from src.commandhandler import user
 from src.commandhandler import common
-from src.smartexplorer import WebExplorer
+from src.stashexplorer import WebExplorer
 
-from smartcash.rewardlist import SNReward
+from stashcash.rewardlist import SNReward
 
 logger = logging.getLogger("bot")
 
@@ -300,7 +300,7 @@ class MessagingMachine(object):
         self.startTimer()
 
 
-class SmartNodeBotTelegram(object):
+class StashNodeBotTelegram(object):
 
     def __init__(self, botToken, admins, password, db, nodeList, rewardList):
 
@@ -690,22 +690,22 @@ class SmartNodeBotTelegram(object):
 
 
     ######
-    # Callback which get called when there is a new releases in the smartcash repo.
+    # Callback which get called when there is a new releases in the stashcash repo.
     #
-    # Called by: Nothing yet, SmartGitHubUpdates later.
+    # Called by: Nothing yet, StashGitHubUpdates later.
     #
     ######
     def updateCheckCallback(self, tag):
 
         for dbUser in self.database.getUsers():
             self.sendMessage(dbUser['id'], ("*Node update available*\n\n"
-                                         "https://github.com/SmartCash/smartcash/releases/tag/{}").format(tag))
+                                         "https://github.com/StashCash/stashcash/releases/tag/{}").format(tag))
 
     ######
     # Callback for evaluating if someone in the database had an upcomming event
     # and send messages to all chats with activated notifications
     #
-    # Called by: SmartNodeList
+    # Called by: StashNodeList
     #
     ######
     def nodeUpdateCB(self, update, n):
@@ -720,7 +720,7 @@ class SmartNodeBotTelegram(object):
     # Callback for evaluating if someone in the database has won the reward
     # and send messages to all chats with activated notifications
     #
-    # Called by: SNRewardList from python-smartcash
+    # Called by: SNRewardList from python-stashcash
     #
     ######
     def rewardCB(self, reward, synced):
@@ -736,7 +736,7 @@ class SmartNodeBotTelegram(object):
     # Callback for evaluating if someone in the database has won the reward
     # and send messages to all chats with activated notifications
     #
-    # Called by: SNRewardList from python-smartcash
+    # Called by: SNRewardList from python-stashcash
     #
     ######
     def rewardCB(self, reward, distance):
@@ -757,7 +757,7 @@ class SmartNodeBotTelegram(object):
     ######
     # Callback for SNRewardList errors
     #
-    # Called by: SNRewardList from python-smartcash
+    # Called by: SNRewardList from python-stashcash
     #
     ######
     def rewardListErrorCB(self, error):
@@ -795,10 +795,10 @@ class SmartNodeBotTelegram(object):
 
 
     ######
-    # Callback which gets called from the SmartNodeList when a balance request triggered by any user
+    # Callback which gets called from the StashNodeList when a balance request triggered by any user
     # is done. It sends the result to the related user.
     #
-    # Called by: SmartExplorer
+    # Called by: StashExplorer
     #
     ######
     def balancesCB(self, check, results):
@@ -822,7 +822,7 @@ class SmartNodeBotTelegram(object):
     ######
     # Push the message to the admin
     #
-    # Called by: SmartNodeList
+    # Called by: StashNodeList
     #
     ######
     def adminCB(self, message):

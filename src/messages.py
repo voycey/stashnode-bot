@@ -1,5 +1,5 @@
 ##
-# Part of `SmartNodeMonitorBot`
+# Part of `StashNodeMonitorBot`
 #
 # Copyright 2018 dustinface
 #
@@ -100,7 +100,7 @@ def link(messenger, link, text = ''):
 
 def welcome(messenger):
     message =  "💥 <u><b>Welcome<b><u> 💥\n\n"
-    message += "I am a bot..you can use me to monitor your SmartNodes! This will allow you to "
+    message += "I am a bot..you can use me to monitor your StashNodes! This will allow you to "
     message += "subscribe notifications about downtimes, changes of your nodes's metrics "
     message += "or payouts your nodes received!\n\nTherefor you may want to add your"
     message += " nodes here with the <cb>add<ca> command. To do this just send me <cb>add IP;NAME<ca>, replace "
@@ -121,13 +121,13 @@ def welcome(messenger):
 
 def help(messenger):
 
-    helpMsg =  ("You can use this bot to monitor your SmartNodes and subscribe event notifications. "
+    helpMsg =  ("You can use this bot to monitor your StashNodes and subscribe event notifications. "
                 "Once you added your nodes with <cb>add<ca> and enabled the desired notifications"
                 " with the commands below you will receive a message from the bot on each "
                 "occured event!\n\n"
                 "<b>Common commands<b>\n\n"
                 "<cb>help<ca> - Print this help\n"
-                "<cb>info<ca> - Print the current status of the SmartNode network\n"
+                "<cb>info<ca> - Print the current status of the StashNode network\n"
                 "<cb>faq<ca> - Print the frequently asked question\n\n"
                 "<b>User commands<b>\n\n"
                 "<cb>status<ca> <b>:enabled<b> - Set :enabled to 0 to disable or to 1 to receive a notification when one of your node's status changed.\n"
@@ -143,12 +143,12 @@ def help(messenger):
                 "<cb>remove<ca> <b>:ip<b> - Remove one of your nodes with its IP-Address\n\n"
                 "<b>Node review<b>\n\n"
                 "<cb>lookup<ca> <b>ip0 .. ipN<b> - Check the payout requirements of one or multiple nodes\n"
-                "<cb>balance<ca> - List the SMART balances of your SmartNodes\n"
-                "<cb>detail<ca> - List all details of your SmartNodes\n"
+                "<cb>balance<ca> - List the SMART balances of your StashNodes\n"
+                "<cb>detail<ca> - List all details of your StashNodes\n"
                 "<cb>nodes<ca> - List only the status and last payments of your nodes\n"
                 "<cb>top<ca> <b>:filter<b> - List only the eligible nodes in the payout zone (Top 10% of the queue) per default. You can use the optional <b>:filter<b> argument to list other ranges (10 - 100)."
                 " <b>Examples<b>: <cb>top 20<ca> For the top 20% of the queue, <cb>top 40<ca> For the top 40%.\n"
-                "<cb>history<ca> - List information about past payouts of your SmartNodes\n\n")
+                "<cb>history<ca> - List information about past payouts of your StashNodes\n\n")
 
     if messenger == 'discord':
         helpMsg = helpMsg.replace("<cb>username<ca> <b>:newname<b> - Change your username to :newname\n\n",'\n\n')
@@ -169,7 +169,7 @@ def networkState(messenger, last, created, preEnabled, enabled, expired, newStar
 
     message = ("<b>Current block<b> {}\n"
                "<b>Protocol requirement<b> {}\n\n"
-               "<u><b>SmartNode count<b><u>\n"
+               "<u><b>StashNode count<b><u>\n"
                "<b>Created<b> {}\n"
                "<b>Pre-Enabled<b> {}\n"
                "<b>Enabled<b> {}\n"
@@ -195,14 +195,14 @@ def networkState(messenger, last, created, preEnabled, enabled, expired, newStar
     message += "<u><b>Initial payout/Minimum uptime<b><u>\n\n"
 
     message += ("The current <b>minimum<b> uptime after a restart to be eligible for"
-                   " SmartNode rewards is <b>{}<b>\n\n").format(initialWaitString)
+                   " StashNode rewards is <b>{}<b>\n\n").format(initialWaitString)
     message += ("Once your node has reached the minimum uptime requirement it may"
                 " join the payout queue if the other requirements are met.\n\n")
 
     ####
     # Check if the network is in upgrade mode.
     #
-    #https://github.com/SmartCash/smartcash/blob/1.1.1/src/smartnode/smartnodeman.cpp#L655
+    #https://github.com/StashCash/stashcash/blob/1.1.1/src/stashnode/stashnodeman.cpp#L655
     ####
     if qualifiedUpgrade != -1:
         message += ("<b>The network is currenty in upgrade mode<b>. Recently started nodes"
@@ -338,7 +338,7 @@ def invalidParameterError(messenger,arg):
     clean = removeMarkdown(arg)
     return markdown("<b>ERROR<b>: Invalid parameter: {}\n".format(clean),messenger)
 
-def invalidSmartAddressError(messenger,address):
+def invalidStashAddressError(messenger,address):
     return markdown("<b>ERROR<b>: Invalid SMART-Address: {}\n".format(address),messenger)
 
 def invalidIpError(messenger,ip):
@@ -368,7 +368,7 @@ def notificationArgumentInvalidError(messenger):
     return markdown("<b>ERROR<b>: Invalid argument value: 0 (Disable), 1 (Enable)\n",messenger)
 
 def notAvailableInGroups(messenger):
-    return markdown("<b>Sorry, this command is not available in groups.<b>\n\nClick here @SmartNodeMonitorBot",messenger)
+    return markdown("<b>Sorry, this command is not available in groups.<b>\n\nClick here @StashNodeMonitorBot",messenger)
 
 def nodesRequired(messenger):
     return markdown(("You need to add nodes first. "

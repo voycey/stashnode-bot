@@ -1,5 +1,5 @@
 ##
-# Part of `SmartNodeMonitorBot`
+# Part of `StashNodeMonitorBot`
 #
 # Copyright 2018 dustinface
 #
@@ -32,7 +32,7 @@ from src.validateaddress import validate as validateAddress
 import telegram
 import discord
 
-from smartcash.rewardlist import SNReward
+from stashcash.rewardlist import SNReward
 
 HF_1_2_MULTINODE_PAYMENTS = 545005
 
@@ -335,19 +335,19 @@ def detail(bot, update):
 
             for userNode in userNodes:
 
-                smartnode = nodeList.getNodes([userNode['collateral']])[0]
+                stashnode = nodeList.getNodes([userNode['collateral']])[0]
 
-                response += messages.markdown(("<b>" + userNode['name'] + " - " + smartnode.ip + "<b>")  ,bot.messenger)
-                response += "\n  `Status` " + smartnode.status
-                response += "\n  `Position` " + messages.markdown(smartnode.positionString(minimumUptime, top10),bot.messenger)
-                response += "\n  `Payee` " + smartnode.payee
-                response += "\n  `Active since` " + util.secondsToText(smartnode.activeSeconds)
-                response += "\n  `Last seen` " + util.secondsToText( int(time.time()) - smartnode.lastSeen)
-                response += "\n  `Last payout (Block)` " + smartnode.payoutBlockString()
-                response += "\n  `Last payout (Time)` " + smartnode.payoutTimeString()
-                response += "\n  `Protocol` {}".format(smartnode.protocol)
-                #response += "\n  `Rank` {}".format(smartnode.rank)
-                response += "\n  " + messages.link(bot.messenger, 'https://explorer.smartcash.cc/address/{}'.format(smartnode.payee),'Open the explorer!')
+                response += messages.markdown(("<b>" + userNode['name'] + " - " + stashnode.ip + "<b>")  ,bot.messenger)
+                response += "\n  `Status` " + stashnode.status
+                response += "\n  `Position` " + messages.markdown(stashnode.positionString(minimumUptime, top10),bot.messenger)
+                response += "\n  `Payee` " + stashnode.payee
+                response += "\n  `Active since` " + util.secondsToText(stashnode.activeSeconds)
+                response += "\n  `Last seen` " + util.secondsToText( int(time.time()) - stashnode.lastSeen)
+                response += "\n  `Last payout (Block)` " + stashnode.payoutBlockString()
+                response += "\n  `Last payout (Time)` " + stashnode.payoutTimeString()
+                response += "\n  `Protocol` {}".format(stashnode.protocol)
+                #response += "\n  `Rank` {}".format(stashnode.rank)
+                response += "\n  " + messages.link(bot.messenger, 'https://explorer.stashcash.cc/address/{}'.format(stashnode.payee),'Open the explorer!')
                 response += "\n\n"
 
     return response
@@ -389,16 +389,16 @@ def nodes(bot, update):
             minimumUptime = nodeList.minimumUptime()
             top10 = nodeList.enabledWithMinProtocol() * 0.1
 
-            for smartnode in sorted(nodes, key=lambda x: x.position if x.position > 0 else 100000):
+            for stashnode in sorted(nodes, key=lambda x: x.position if x.position > 0 else 100000):
 
-                userNode = bot.database.getNodes(smartnode.collateral, user['id'])
+                userNode = bot.database.getNodes(stashnode.collateral, user['id'])
 
-                payoutText = util.secondsToText(smartnode.lastPaidTime)
-                response += messages.markdown("<b>" + userNode['name'] + "<b> - `" + smartnode.status + "`",bot.messenger)
-                response += "\nPosition " + messages.markdown(smartnode.positionString(minimumUptime, top10),bot.messenger)
-                response += "\nLast seen " + util.secondsToText( int(time.time()) - smartnode.lastSeen)
-                response += "\nLast payout " + smartnode.payoutTimeString()
-                response += "\n" + messages.link(bot.messenger, 'https://explorer.smartcash.cc/address/{}'.format(smartnode.payee),'Open the explorer!')
+                payoutText = util.secondsToText(stashnode.lastPaidTime)
+                response += messages.markdown("<b>" + userNode['name'] + "<b> - `" + stashnode.status + "`",bot.messenger)
+                response += "\nPosition " + messages.markdown(stashnode.positionString(minimumUptime, top10),bot.messenger)
+                response += "\nLast seen " + util.secondsToText( int(time.time()) - stashnode.lastSeen)
+                response += "\nLast payout " + stashnode.payoutTimeString()
+                response += "\n" + messages.link(bot.messenger, 'https://explorer.stashcash.cc/address/{}'.format(stashnode.payee),'Open the explorer!')
                 response += "\n\n"
 
     return response
@@ -445,10 +445,10 @@ def history(bot, update):
             countMultiplePayouts = 0
             totalProfit30Days = 0
 
-            for smartnode in nodes:
+            for stashnode in nodes:
 
-                userNode = bot.database.getNodes(smartnode.collateral, user['id'])
-                rewards = bot.rewardList.getRewardsForPayee(smartnode.payee)
+                userNode = bot.database.getNodes(stashnode.collateral, user['id'])
+                rewards = bot.rewardList.getRewardsForPayee(stashnode.payee)
 
                 profit = sum(map(lambda x: x.amount,rewards))
                 profit30Days = sum(map(lambda x: x.amount if x.txtime > time30Days else 0,rewards))
@@ -456,7 +456,7 @@ def history(bot, update):
 
                 totalProfit += round(profit,1)
                 avgInterval = 0
-                smartPerDay = 0
+                stashPerDay = 0
 
                 first = 0
                 last = 0
@@ -481,7 +481,7 @@ def history(bot, update):
                     avgInterval = (last - first) / len(rewards)
                     totalAvgInterval += avgInterval
 
-                    smartPerDay = round( profit / ( (time.time() - first) / 86400 ),1)
+                    stashPerDay = round( profit / ( (time.time() - first) / 86400 ),1)
 
                 response += "<u><b>Node - " + userNode['name'] + "<b><u>\n\n"
                 response += "<b>Payouts<b> {}\n".format(len(rewards))
@@ -491,8 +491,8 @@ def history(bot, update):
                 if avgInterval:
                     response += "\n<b>Payout interval<b> " + util.secondsToText(avgInterval)
 
-                if smartPerDay:
-                    response += "\n<b>SMART/day<b> {:,} SMART".format(smartPerDay)
+                if stashPerDay:
+                    response += "\n<b>SMART/day<b> {:,} SMART".format(stashPerDay)
 
                 response += "\n<b>ROI (SMART)<b> {}%".format(round((profit/100000.0)*100.0,1))
 
@@ -568,13 +568,13 @@ def top(bot, update, args):
             minimumUptime = nodeList.minimumUptime()
 
             if len(topNodes):
-                for smartnode in sorted(topNodes, key=lambda x: x.position if x.position > 0 else 100000):
+                for stashnode in sorted(topNodes, key=lambda x: x.position if x.position > 0 else 100000):
 
-                    userNode = bot.database.getNodes(smartnode.collateral, user['id'])
+                    userNode = bot.database.getNodes(stashnode.collateral, user['id'])
 
                     response += "<b>" + userNode['name'] + "<b>"
-                    response += "\nPosition " + messages.markdown(smartnode.positionString(minimumUptime),bot.messenger)
-                    response += "\n" + messages.link(bot.messenger, 'https://explorer.smartcash.cc/address/{}'.format(smartnode.payee),'Open the explorer!')
+                    response += "\nPosition " + messages.markdown(stashnode.positionString(minimumUptime),bot.messenger)
+                    response += "\n" + messages.link(bot.messenger, 'https://explorer.stashcash.cc/address/{}'.format(stashnode.payee),'Open the explorer!')
                     response += "\n\n"
             else:
                 response += "<b>You have currently no nodes in the top {}% of the queue.<b>\n\n".format(topPercent)

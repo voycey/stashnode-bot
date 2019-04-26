@@ -17,7 +17,7 @@
 - Timeout notification improvements.
 
 # 2.0
-- Using the python-smartcash module for rpc stuff now instead of the ugly cli subprocess calls
+- Using the python-stashcash module for rpc stuff now instead of the ugly cli subprocess calls
 - Maintain a node reward database where missing/false rewards are tracked
 - Makes use of the new reward database to improve the reward notifications. **All** rewards should be notified from now on!
 - New node `history` command which shows past payouts for all nodes

@@ -1,12 +1,12 @@
-# SmartNodeMonitorBot
+# StashNodeMonitorBot
 
 Look here for a full how to guide
 
-https://steemit.com/smartcash/@dustinface/smartnodemonitorbot
+https://steemit.com/stashcash/@dustinface/stashnodemonitorbot
 
 or here for the changes in 1.1
 
-https://steemit.com/smartcash/@dustinface/update-1-1-smartnodemonitorbot
+https://steemit.com/stashcash/@dustinface/update-1-1-stashnodemonitorbot
 
 
 # Beer, coffee and further development

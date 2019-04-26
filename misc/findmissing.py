@@ -4,10 +4,10 @@ import logging
 import os
 import time
 
-logger = logging.getLogger("smartnodes")
+logger = logging.getLogger("stashnodes")
 logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
                         level=logging.DEBUG)
-# Index assignment of the "smartnodelist full"
+# Index assignment of the "stashnodelist full"
 STATUS_INDEX = 0
 PROTOCOL_INDEX = 1
 PAYEE_INDEX = 2
@@ -50,7 +50,7 @@ class Transaction(object):
             parts = s.split('-')
             return cls(parts[0], int(parts[1]))
 
-class SmartNode(object):
+class StashNode(object):
 
     def __init__(self, **kwargs):
 
@@ -134,7 +134,7 @@ def compare():
 
             tx = Transaction.fromRaw(key)
 
-            oldList[tx] = SmartNode.fromRaw(tx, data)
+            oldList[tx] = StashNode.fromRaw(tx, data)
 
             if int(oldList[tx].protocol) == 90025:
                 newProtocolInOld += 1
@@ -146,7 +146,7 @@ def compare():
 
             tx = Transaction.fromRaw(key)
 
-            newList[tx] = SmartNode.fromRaw(tx, data)
+            newList[tx] = StashNode.fromRaw(tx, data)
 
             if int(newList[tx].protocol) == 90025 :
                 newProtocolInNew += 1

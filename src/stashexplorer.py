@@ -1,5 +1,5 @@
 ##
-# Part of `SmartNodeMonitorBot`
+# Part of `StashNodeMonitorBot`
 #
 # Copyright 2018 dustinface
 #
@@ -34,7 +34,7 @@ import threading
 import re
 import uuid
 
-logger = logging.getLogger("smartexplorer")
+logger = logging.getLogger("stashexplorer")
 
 lockForever = sys.float_info.max
 
@@ -67,15 +67,15 @@ class Request(object):
 
         self.cb(self.future)
 
-class SmartExplorer(object):
+class StashExplorer(object):
 
     def __init__(self, balancesCB):
         self.balancesCB = balancesCB
 
     def balances(self, addresses):
-        logger.warning("SmartExplorer balances")
+        logger.warning("StashExplorer balances")
 
-class LocalExplorer(SmartExplorer):
+class LocalExplorer(StashExplorer):
 
     def __init__(self,balancesCB):
         super().__init__(balancesCB)
@@ -83,16 +83,16 @@ class LocalExplorer(SmartExplorer):
     def balances(self,addresses):
         logger.warning("LocalExplorer maybe later...")
 
-class WebExplorer(SmartExplorer):
+class WebExplorer(StashExplorer):
 
     def __init__(self,balancesCB):
         super().__init__(balancesCB)
 
         self.lastUrl = 0
-        self.urls = {'https://explorer.smartcash.cc':  lockForever,\
-                     'https://explorer2.smartcash.cc': lockForever,\
-                     'https://explorer3.smartcash.cc': lockForever,\
-                     'https://api-explorer.smartcash.cc': None}
+        self.urls = {'https://explorer.stashcash.cc':  lockForever,\
+                     'https://explorer2.stashcash.cc': lockForever,\
+                     'https://explorer3.stashcash.cc': lockForever,\
+                     'https://api-explorer.stashcash.cc': None}
 
         self.urlLockSeconds = 3600
         self.session = FuturesSession(max_workers=20)
@@ -163,7 +163,7 @@ class WebExplorer(SmartExplorer):
     def balance(self, address):
 
         explorer = self.nextUrl()
-        requestUrl = "{}/api/smartexplorer/GetAddressBalance/{}".format(explorer,address)
+        requestUrl = "{}/api/stashexplorer/GetAddressBalance/{}".format(explorer,address)
         logger.info("Add {}".format(requestUrl))
         future = self.session.get(requestUrl)
         return {'explorer' : explorer, 'future' : future}

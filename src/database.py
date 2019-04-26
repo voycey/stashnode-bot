@@ -1,5 +1,5 @@
 ##
-# Part of `SmartNodeMonitorBot`
+# Part of `StashNodeMonitorBot`
 #
 # Copyright 2018 dustinface
 #
@@ -23,7 +23,7 @@
 ##
 
 import logging
-from smartcash.util import ThreadedSQLite
+from stashcash.util import ThreadedSQLite
 import threading
 import sqlite3 as sql
 

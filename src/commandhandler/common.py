@@ -1,5 +1,5 @@
 ##
-# Part of `SmartNodeMonitorBot`
+# Part of `StashNodeMonitorBot`
 #
 # Copyright 2018 dustinface
 #
@@ -75,7 +75,7 @@ def info(bot, update):
 
     logger.info("network")
 
-    response = messages.markdown("<u><b>SmartNode Network<b><u>\n\n",bot.messenger)
+    response = messages.markdown("<u><b>StashNode Network<b><u>\n\n",bot.messenger)
 
     with bot.nodeList as nodeList:
 

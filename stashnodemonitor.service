@@ -1,11 +1,11 @@
 [Unit]
-Description=SmartNodeMonitorBot service
+Description=StashNodeMonitorBot service
 After=network-online.target
 
 [Service]
 User= :user
 Type=simple
-ExecStart= :path/SmartNodeMonitorBot
+ExecStart= :path/StashNodeMonitorBot
 Restart=always
 RestartSec=15s
 
