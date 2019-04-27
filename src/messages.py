@@ -101,7 +101,7 @@ def link(messenger, link, text = ''):
 def welcome(messenger):
     message =  "💥 <u><b>Welcome<b><u> 💥\n\n"
     message += "I am a bot.. Bleep bloop, you can use me to monitor your Stash Masternodes! This will allow you to "
-    message += "subscribe to notifications about downtimes, changes to your nodes's metrics "
+    message += "subscribe to notifications about downtime, changes to your nodes's metrics "
     message += "or payouts your nodes received!\n\nIn order for this to work you will need to add your"
     message += " nodes here with the <cb>add<ca> command. To do this just send me <cb>add IP;NAME<ca>, replace "
     message += "<c>IP<c> with the IP-Address of your node and "
@@ -144,12 +144,12 @@ def help(messenger):
                 "<cb>remove<ca> <b>:ip<b> - Remove one of your nodes with its IP-Address\n\n"
                 "<b>Node review<b>\n\n"
                 "<cb>lookup<ca> <b>ip0 .. ipN<b> - Check the payout requirements of one or multiple nodes\n"
-                "<cb>balance<ca> - List the SMART balances of your StashNodes\n"
-                "<cb>detail<ca> - List all details of your StashNodes\n"
+                "<cb>balance<ca> - List the Stash balances of your Stash Masternodes\n"
+                "<cb>detail<ca> - List all details of your Stash Masternodes\n"
                 "<cb>nodes<ca> - List only the status and last payments of your nodes\n"
                 "<cb>top<ca> <b>:filter<b> - List only the eligible nodes in the payout zone (Top 10% of the queue) per default. You can use the optional <b>:filter<b> argument to list other ranges (10 - 100)."
                 " <b>Examples<b>: <cb>top 20<ca> For the top 20% of the queue, <cb>top 40<ca> For the top 40%.\n"
-                "<cb>history<ca> - List information about past payouts of your StashNodes\n\n")
+                "<cb>history<ca> - List information about past payouts of your Stash Masternodes\n\n")
 
     if messenger == 'discord':
         helpMsg = helpMsg.replace("<cb>username<ca> <b>:newname<b> - Change your username to :newname\n\n",'\n\n')
@@ -170,7 +170,7 @@ def networkState(messenger, last, created, preEnabled, enabled, expired, newStar
 
     message = ("<b>Current block<b> {}\n"
                "<b>Protocol requirement<b> {}\n\n"
-               "<u><b>StashNode count<b><u>\n"
+               "<u><b>Stash Masternode count<b><u>\n"
                "<b>Created<b> {}\n"
                "<b>Pre-Enabled<b> {}\n"
                "<b>Enabled<b> {}\n"
@@ -206,7 +206,7 @@ def networkState(messenger, last, created, preEnabled, enabled, expired, newStar
     #https://github.com/Stashpay/stashpay/blob/1.1.1/src/stashnode/stashnodeman.cpp#L655
     ####
     if qualifiedUpgrade != -1:
-        message += ("<b>The network is currenty in upgrade mode<b>. Recently started nodes"
+        message += ("<b>The network is currently in upgrade mode<b>. Recently started nodes"
         " do also do have the chance to get paid - <b>The minimum uptime above does not matter<b> - if their collateral transaction has"
         " at least {} confirmations. Your nodes's position needs to be less than {}"
         " to be in the random payout zone. If you are there you have the <b>chance<b> get paid"
@@ -219,7 +219,7 @@ def networkState(messenger, last, created, preEnabled, enabled, expired, newStar
 
     message += "<u><b>Further payouts<b><u>\n\n"
     message += ("Once you received your first payout your node's position"
-               " currenty needs to be less than <b>{}<b>"
+               " currently needs to be less than <b>{}<b>"
                " to be in the random payout zone. If you are there you have the <b>chance<b> get paid"
                " from now on but in the <b>worst<b> case it still might take some days.\n\n").format(int(minPosition))
 
@@ -295,7 +295,7 @@ def rewardNotification(messenger, nodeName, block, reward ):
     response = ("🎉<u><b> Reward <b><u> 🎉 \n\n"
                 "Your node <b>{}<b> received a "
                 "reward at block {}\n\n"
-                "Payout <b>~{} SMART<b>").format(nodeName, block, int(reward))
+                "Payout <b>~{} Stash<b>").format(nodeName, block, int(reward))
 
     return markdown(response, messenger)
 
@@ -340,7 +340,7 @@ def invalidParameterError(messenger,arg):
     return markdown("<b>ERROR<b>: Invalid parameter: {}\n".format(clean),messenger)
 
 def invalidStashAddressError(messenger,address):
-    return markdown("<b>ERROR<b>: Invalid SMART-Address: {}\n".format(address),messenger)
+    return markdown("<b>ERROR<b>: Invalid Stash-Address: {}\n".format(address),messenger)
 
 def invalidIpError(messenger,ip):
     clean = removeMarkdown(ip)
@@ -376,7 +376,7 @@ def nodesRequired(messenger):
              "Type <cb>help<ca> to show the list of commands."),messenger)
 
 def lookupArgumentRequiredError(messenger):
-    return markdown(("<b>ERROR<b>: Aguments required. You can lookup one or multiple IP's: ip0 ip1 ... ipN\n"
+    return markdown(("<b>ERROR<b>: Arguments required. You can lookup one or multiple IP's: ip0 ip1 ... ipN\n"
                     "<b>Example<b>: <cb>lookup 222.222.222.222<ca>"),messenger)
 
 def lookupError(messenger, ip):

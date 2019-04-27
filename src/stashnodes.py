@@ -52,8 +52,8 @@ POS_UPDATE_REQUIRED = -3
 POS_TOO_NEW = -4
 POS_COLLATERAL_AGE = -5
 
-HF_1_2_MULTINODE_PAYMENTS = 545005
-HF_1_2_8_COLLATERAL_CHANGE = 910000
+HF_1_2_MULTINODE_PAYMENTS = 0
+HF_1_2_8_COLLATERAL_CHANGE = 0
 
 logger = logging.getLogger("stashnodes")
 
@@ -416,27 +416,27 @@ class StashNodeList(object):
 
     def updateProtocolRequirement(self):
 
-        #Example command response
-        # {
-        #   "oldProtocol": 90028,
-        #   "newProtocol": 90029,
-        #   "enableTime": 1099511627775,
-        #   "activeProtocol": 90028
-        # }
-        status = self.rpc.raw("stashnode",['protocol'])
-
-        if status.error:
-            msg = "updateProtocolRequirement failed: {}".format(str(status.error))
-            logging.error(msg)
-            self.pushAdmin(msg)
-            return False
-
-        self.oldProtocol = status.data['oldProtocol']
-        self.newProtocol = status.data['newProtocol']
-        self.protocolEnableTimme = status.data['enableTime']
-        self.activeProtocol = status.data['activeProtocol']
-
-        logger.info("activeProtocol {}".format(self.activeProtocol))
+        # #Example command response
+        # # {
+        # #   "oldProtocol": 90028,
+        # #   "newProtocol": 90029,
+        # #   "enableTime": 1099511627775,
+        # #   "activeProtocol": 90028
+        # # }
+        # status = self.rpc.raw("stashnode",['protocol'])
+        #
+        # if status.error:
+        #     msg = "updateProtocolRequirement failed: {}".format(str(status.error))
+        #     logging.error(msg)
+        #     self.pushAdmin(msg)
+        #     return False
+        #
+        # self.oldProtocol = status.data['oldProtocol']
+        # self.newProtocol = status.data['newProtocol']
+        # self.protocolEnableTimme = status.data['enableTime']
+        # self.activeProtocol = status.data['activeProtocol']
+        #
+        # logger.info("activeProtocol {}".format(self.activeProtocol))
 
         return True
 
@@ -455,7 +455,7 @@ class StashNodeList(object):
             return False
 
         self.chainSynced = status.data['IsBlockchainSynced']
-        self.nodeListSynced = status.data['IsStashnodeListSynced']
+        self.nodeListSynced = status.data['IsMasternodeListSynced']
         self.winnersListSynced = status.data['IsWinnersListSynced']
 
         return True
@@ -488,7 +488,7 @@ class StashNodeList(object):
         removedNodes = []
 
         info = self.rpc.getInfo()
-        rpcNodes = self.rpc.getStashNodeList('full')
+        rpcNodes = self.rpc.getMasterNodeList('full')
 
         if info.error:
             msg = "updateList getInfo: {}".format(str(info.error))
@@ -501,7 +501,7 @@ class StashNodeList(object):
             self.lastBlock = info.data["blocks"]
 
         if rpcNodes.error:
-            msg = "updateList getStashNodeList: {}".format(str(rpcNodes.error))
+            msg = "updateList getMasterNodeList: {}".format(str(rpcNodes.error))
             logging.error(msg)
             self.pushAdmin(msg)
             return False
@@ -708,10 +708,10 @@ class StashNodeList(object):
         if not self.synced():
             return False
 
-        ranks = self.rpc.getStashNodeList('rank')
+        ranks = self.rpc.getMasterNodeList('rank')
 
         if ranks.error:
-            msg = "updateRanks getStashNodeList: {}".format(str(ranks.error))
+            msg = "updateRanks getMasterNodeList: {}".format(str(ranks.error))
             logging.error(msg)
             self.pushAdmin(msg)
             return False

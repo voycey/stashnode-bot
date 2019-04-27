@@ -34,7 +34,7 @@ import discord
 
 from stashpay.rewardlist import SNReward
 
-HF_1_2_MULTINODE_PAYMENTS = 545005
+HF_1_2_MULTINODE_PAYMENTS = 0
 
 def getPayeesPerBlock(nHeight):
 
@@ -485,16 +485,16 @@ def history(bot, update):
 
                 response += "<u><b>Node - " + userNode['name'] + "<b><u>\n\n"
                 response += "<b>Payouts<b> {}\n".format(len(rewards))
-                response += "<b>Profit<b> {:,} SMART\n".format(round(profit,1))
-                response += "<b>Profit (30 days)<b> {:,} SMART\n".format(round(profit30Days,1))
+                response += "<b>Profit<b> {:,} Stash\n".format(round(profit,1))
+                response += "<b>Profit (30 days)<b> {:,} Stash\n".format(round(profit30Days,1))
 
                 if avgInterval:
                     response += "\n<b>Payout interval<b> " + util.secondsToText(avgInterval)
 
                 if stashPerDay:
-                    response += "\n<b>SMART/day<b> {:,} SMART".format(stashPerDay)
+                    response += "\n<b>Stash/day<b> {:,} Stash".format(stashPerDay)
 
-                response += "\n<b>ROI (SMART)<b> {}%".format(round((profit/100000.0)*100.0,1))
+                response += "\n<b>ROI (Stash)<b> {}%".format(round((profit/100000.0)*100.0,1))
 
                 response += "\n\n"
 
@@ -503,16 +503,16 @@ def history(bot, update):
             if totalFirst:
                 response += "<b>First payout<b> {} ago\n\n".format(util.secondsToText( time.time() - totalFirst ) )
 
-            response += "<b>Profit (30 days)<b> {:,} SMART\n".format(round(totalProfit30Days,1))
-            response += "<b>SMART/day (30 days)<b> {:,} SMART\n\n".format(round(totalProfit30Days/30,1))
+            response += "<b>Profit (30 days)<b> {:,} Stash\n".format(round(totalProfit30Days,1))
+            response += "<b>Stash/day (30 days)<b> {:,} Stash\n\n".format(round(totalProfit30Days/30,1))
 
             if totalAvgInterval:
                 totalAvgInterval = totalAvgInterval/countMultiplePayouts
                 response += "<b>Total payout interval<b> {}\n".format(util.secondsToText(totalAvgInterval))
 
-            response += "<b>Total SMART/day<b> {:,} SMART\n\n".format(round(totalProfit/( ( time.time() - totalFirst ) / 86400),1))
-            response += "<b>Total profit<b> {:,} SMART\n".format(round(totalProfit,1))
-            response += "<b>Total ROI (SMART)<b> {}%\n\n".format(round((totalProfit / totalInvest)*100,1))
+            response += "<b>Total Stash/day<b> {:,} Stash\n\n".format(round(totalProfit/( ( time.time() - totalFirst ) / 86400),1))
+            response += "<b>Total profit<b> {:,} Stash\n".format(round(totalProfit,1))
+            response += "<b>Total ROI (Stash)<b> {}%\n\n".format(round((totalProfit / totalInvest)*100,1))
 
     return messages.markdown(response, bot.messenger)
 
@@ -612,12 +612,12 @@ def balances(bot, userId, results):
                         try:
                             balance = float(result.data[0]["balance"])
                             total += round(balance,1)
-                            response += "{} - {:,} SMART\n".format(node['name'], balance)
+                            response += "{} - {:,} Stash\n".format(node['name'], balance)
                         except:
                             logger.warning("Balance response invalid: {}".format(result.data))
                             response += "{} - Error: Could not fetch this balance.\n".format(node['name'])
 
-        response += messages.markdown("\nTotal: <b>{:,} SMART<b>".format(round(total,1)),bot.messenger)
+        response += messages.markdown("\nTotal: <b>{:,} Stash<b>".format(round(total,1)),bot.messenger)
 
     else:
         response += "Sorry, could not check your balances! Looks like all explorers are down. Try it again later.\n\n"
