@@ -1,5 +1,5 @@
 ##
-# Part of `StashNodeMonitorBot`
+# Part of `MasterNodeMonitorBot`
 #
 # Copyright 2018 dustinface
 #
@@ -88,7 +88,7 @@ def position(bot):
         top10Time = util.secondsToText(top10Seconds)
 
         return (
-        "We have currenty <b>{}<b> qualified StashNodes. All those are in a "
+        "We have currenty <b>{}<b> qualified MasterNodes. All those are in a "
         "virtual payout queue. Every other mined block (2*55seconds) one "
         "of the nodes in the top 10% of that queue gets picked perchance and"
         " receives a payout. After that it moves back to the end of the queue.\n\n"
@@ -102,7 +102,7 @@ def position(bot):
         "bit in the queue from time to time. This happens each time a node that"
         " has received its last payment longer ago as yours becomes eligible"
         " for payouts (it jumpes into the queue and receives a position)."
-        " At this moment we have <b>{}<b> StashNodes. <b>{}<b> of them are"
+        " At this moment we have <b>{}<b> MasterNodes. <b>{}<b> of them are"
         " <b>not<b> qualified for payouts. Each time one of the unqualified"
         " nodes becomes eligible due to a full match of the requirements"
         " it is very likely that it will jump ahead of yours.\n\n"
@@ -181,19 +181,19 @@ def rewards(bot):
         perMonth = round((30.5 / payoutDays) * currentReward,1)
 
         return (
-        "The StashNode rewards are calculated by the following formula\n\n"
+        "The MasterNode rewards are calculated by the following formula\n\n"
         "```reward = 5000 x 143500 / blockHeight * 0.1```\n\n"
         "At this moment our blockchain is at the height <b>{}<b> that means"
         "\n\n```5000 x 143500 / {} * 0.1 => {} Stash per block```\n\n"
         "Each block with an <b>even<b> blockheight one of the the nodes receive this reward for 2 blocks. With the current "
         "estimated payout interval of <b>{}<b> you can expect roughly"
-        " <b>{:,} Stash<b> per month per StashNode. This can vary a bit upwards and downwards though.\n\n"
+        " <b>{:,} Stash<b> per month per MasterNode. This can vary a bit upwards and downwards though.\n\n"
         "Due to the constant increase of the <c>blockHeight<c> of the Stashpay blockchain"
         " the rewards will decrease a little bit every 55 seconds."
         " Also the increase of the number of qualified nodes will increase the payout interval."
         " As result your monthly payout will slightly decrease over the time.\n\n"
         "You can look at the chart in the link below to see the reward decrease "
-        "for the first 4 years after the StashNode launch.\n\n"
+        "for the first 4 years after the MasterNode launch.\n\n"
         ).format(lastBlock, lastBlock, currentReward, interval, perMonth)\
         + messages.link(bot.messenger, "https://goo.gl/Va817H", "Click here to open the chart")
 
@@ -237,7 +237,7 @@ faqs = {
              initial ),
      'rewards' : FAQ("What payouts can i expect from my nodes?",
               rewards ),
-    'status' : FAQ(("What should be done when a StashNode is <b>not<b> successfully started?"),
+    'status' : FAQ(("What should be done when a MasterNode is <b>not<b> successfully started?"),
              status )
 }
 

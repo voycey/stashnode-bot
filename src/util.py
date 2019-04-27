@@ -1,5 +1,5 @@
 ##
-# Part of `StashNodeMonitorBot`
+# Part of `MasterNodeMonitorBot`
 #
 # Copyright 2018 dustinface
 #
@@ -39,8 +39,8 @@ def validateName( name ):
 
 def validateIp( ip ):
 
-    if re.match('^(?:(25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9][0-9]|[0-9])(\.(?!$)|$)){3}(?:(25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9][0-9]|[0-9])(\.(?!$)|$|:9678)){1}$',ip):
-        return ip.replace(':9678','')
+    if re.match('^(?:(25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9][0-9]|[0-9])(\.(?!$)|$)){3}(?:(25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9][0-9]|[0-9])(\.(?!$)|$|:9999)){1}$',ip):
+        return ip.replace(':9999','')
 
     return None
 

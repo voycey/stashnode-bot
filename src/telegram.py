@@ -1,5 +1,5 @@
 ##
-# Part of `StashNodeMonitorBot`
+# Part of `MasterNodeMonitorBot`
 #
 # Copyright 2018 dustinface
 #
@@ -300,7 +300,7 @@ class MessagingMachine(object):
         self.startTimer()
 
 
-class StashNodeBotTelegram(object):
+class MasterNodeBotTelegram(object):
 
     def __init__(self, botToken, admins, password, db, nodeList):
 
@@ -705,7 +705,7 @@ class StashNodeBotTelegram(object):
     # Callback for evaluating if someone in the database had an upcomming event
     # and send messages to all chats with activated notifications
     #
-    # Called by: StashNodeList
+    # Called by: MasterNodeList
     #
     ######
     def nodeUpdateCB(self, update, n):
@@ -795,7 +795,7 @@ class StashNodeBotTelegram(object):
 
 
     ######
-    # Callback which gets called from the StashNodeList when a balance request triggered by any user
+    # Callback which gets called from the MasterNodeList when a balance request triggered by any user
     # is done. It sends the result to the related user.
     #
     # Called by: StashExplorer
@@ -822,7 +822,7 @@ class StashNodeBotTelegram(object):
     ######
     # Push the message to the admin
     #
-    # Called by: StashNodeList
+    # Called by: MasterNodeList
     #
     ######
     def adminCB(self, message):

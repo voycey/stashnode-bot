@@ -1,5 +1,5 @@
 ##
-# Part of `StashNodeMonitorBot`
+# Part of `MasterNodeMonitorBot`
 #
 # Copyright 2018 dustinface
 #
@@ -44,7 +44,7 @@ from stashpay.rewardlist import SNReward
 
 logger = logging.getLogger("bot")
 
-class StashNodeBotDiscord(object):
+class MasterNodeBotDiscord(object):
 
     def __init__(self, botToken, admins, password, db, nodeList):
 
@@ -161,7 +161,7 @@ class StashNodeBotDiscord(object):
 
             with self.nodeList as nodeList:
 
-                await self.client.change_presence(game=discord.Game(name='our {} StashNodes'.format(nodeList.count()), type=3))
+                await self.client.change_presence(game=discord.Game(name='our {} MasterNodes'.format(nodeList.count()), type=3))
 
                 # # Update the sources where the blocks are assigned to the nodelist
                 # for node in nodeList.nodes.values():
@@ -237,7 +237,7 @@ class StashNodeBotDiscord(object):
             args = parts[2:]
         # If there are multiple mentions send each one (excluded the bot itself)
         # the help message.
-        # Like: hey @dustinface and @whoever check out the @StashNodeMonitorBot
+        # Like: hey @dustinface and @whoever check out the @MasterNodeMonitorBot
         # The above would send @dustinface and @whoever the help message of the bot.
         elif len(message.mentions) > 1 and self.client.user in message.mentions:
 
@@ -514,7 +514,7 @@ class StashNodeBotDiscord(object):
     # Callback for evaluating if someone in the database had an upcomming event
     # and send messages to all chats with activated notifications
     #
-    # Called by: StashNodeList
+    # Called by: MasterNodeList
     #
     ######
     def nodeUpdateCB(self, update, n):
@@ -570,13 +570,13 @@ class StashNodeBotDiscord(object):
     # Callback for evaluating if someone has enabled network notifications
     # and send messages to all relevant chats
     #
-    # Called by: StashNodeList
+    # Called by: MasterNodeList
     #
     ######
     def networkCB(self, collaterals, added):
 
         nodeCount = self.nodeList.count()
-        asyncio.run_coroutine_threadsafe(self.client.change_presence(game=discord.Game(name='our {} StashNodes'.format(nodeCount), type=3)), loop=self.client.loop)
+        asyncio.run_coroutine_threadsafe(self.client.change_presence(game=discord.Game(name='our {} MasterNodes'.format(nodeCount), type=3)), loop=self.client.loop)
 
         response = common.networkUpdate(self, collaterals, added)
 
@@ -609,7 +609,7 @@ class StashNodeBotDiscord(object):
             self.database.deleteNodesWithId(collateral)
 
     ######
-    # Callback which gets called from the StashNodeList when a balance request triggered by any user
+    # Callback which gets called from the MasterNodeList when a balance request triggered by any user
     # is done. It sends the result to the related user.
     #
     # Called by: StashExplorer
@@ -643,7 +643,7 @@ class StashNodeBotDiscord(object):
     ######
     # Push the message to the admin
     #
-    # Called by: StashNodeList
+    # Called by: MasterNodeList
     #
     ######
     def adminCB(self, message):

@@ -1,5 +1,5 @@
 ##
-# Part of `StashNodeMonitorBot`
+# Part of `MasterNodeMonitorBot`
 #
 # Copyright 2018 dustinface
 #
@@ -330,8 +330,8 @@ def detail(bot, update):
 
         with bot.nodeList as nodeList:
 
-            minimumUptime = nodeList.minimumUptime()
-            top10 = nodeList.enabledWithMinProtocol() * 0.1
+            #minimumUptime = nodeList.minimumUptime()
+            #top10 = nodeList.enabledWithMinProtocol() * 0.1
 
             for userNode in userNodes:
 
@@ -339,7 +339,7 @@ def detail(bot, update):
 
                 response += messages.markdown(("<b>" + userNode['name'] + " - " + stashnode.ip + "<b>")  ,bot.messenger)
                 response += "\n  `Status` " + stashnode.status
-                response += "\n  `Position` " + messages.markdown(stashnode.positionString(minimumUptime, top10),bot.messenger)
+                #response += "\n  `Position` " + messages.markdown(stashnode.positionString(minimumUptime, top10),bot.messenger)
                 response += "\n  `Payee` " + stashnode.payee
                 response += "\n  `Active since` " + util.secondsToText(stashnode.activeSeconds)
                 response += "\n  `Last seen` " + util.secondsToText( int(time.time()) - stashnode.lastSeen)

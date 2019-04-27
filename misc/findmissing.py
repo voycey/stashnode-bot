@@ -50,7 +50,7 @@ class Transaction(object):
             parts = s.split('-')
             return cls(parts[0], int(parts[1]))
 
-class StashNode(object):
+class MasterNode(object):
 
     def __init__(self, **kwargs):
 
@@ -134,7 +134,7 @@ def compare():
 
             tx = Transaction.fromRaw(key)
 
-            oldList[tx] = StashNode.fromRaw(tx, data)
+            oldList[tx] = MasterNode.fromRaw(tx, data)
 
             if int(oldList[tx].protocol) == 90025:
                 newProtocolInOld += 1
@@ -146,9 +146,9 @@ def compare():
 
             tx = Transaction.fromRaw(key)
 
-            newList[tx] = StashNode.fromRaw(tx, data)
+            newList[tx] = MasterNode.fromRaw(tx, data)
 
-            if int(newList[tx].protocol) == 90025 :
+            if int(newList[tx].protocol) == 90025:
                 newProtocolInNew += 1
 
     for tx, node in oldList.items():

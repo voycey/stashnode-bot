@@ -1,5 +1,5 @@
 ##
-# Part of `StashNodeMonitorBot`
+# Part of `MasterNodeMonitorBot`
 #
 # Copyright 2018 dustinface
 #
@@ -128,7 +128,7 @@ def help(messenger):
                 "event that occurs!\n\n"
                 "<b>Common commands<b>\n\n"
                 "<cb>help<ca> - Print this help\n"
-                "<cb>info<ca> - Print the current status of the StashNode network\n"
+                "<cb>info<ca> - Print the current status of the MasterNode network\n"
                 "<cb>faq<ca> - Print the frequently asked question\n\n"
                 "<b>User commands<b>\n\n"
                 "<cb>status<ca> <b>:enabled<b> - Set :enabled to 0 to disable or to 1 to receive a notification when one of your node's status changed.\n"
@@ -196,7 +196,7 @@ def networkState(messenger, last, created, preEnabled, enabled, expired, newStar
     message += "<u><b>Initial payout/Minimum uptime<b><u>\n\n"
 
     message += ("The current <b>minimum<b> uptime after a restart to be eligible for"
-                   " StashNode rewards is <b>{}<b>\n\n").format(initialWaitString)
+                   " MasterNode rewards is <b>{}<b>\n\n").format(initialWaitString)
     message += ("Once your node has reached the minimum uptime requirement it may"
                 " join the payout queue if the other requirements are met.\n\n")
 
@@ -360,7 +360,7 @@ def nodeNotExistsError(messenger, node):
 
 def nodeNotInListError(messenger, node):
     clean = removeMarkdown(node)
-    return markdown("<b>ERROR<b>: Address doest not exists in the global nodelist. {}\n".format(node),messenger)
+    return markdown("<b>ERROR<b>: Address does not exist in the global nodelist. {}\n".format(node),messenger)
 
 def notificationArgumentRequiredError(messenger):
     return markdown("<b>ERROR<b>: Exactly 1 argument required: 0 (Disable), 1 (Enable)\n",messenger)
@@ -369,7 +369,7 @@ def notificationArgumentInvalidError(messenger):
     return markdown("<b>ERROR<b>: Invalid argument value: 0 (Disable), 1 (Enable)\n",messenger)
 
 def notAvailableInGroups(messenger):
-    return markdown("<b>Sorry, this command is not available in groups.<b>\n\nClick here @StashNodeMonitorBot",messenger)
+    return markdown("<b>Sorry, this command is not available in groups.<b>\n\nClick here @MasterNodeMonitorBot",messenger)
 
 def nodesRequired(messenger):
     return markdown(("You need to add nodes first. "

@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 #
-# Part of `StashNodeMonitorBot`
+# Part of `MasterNodeMonitorBot`
 #
 # Copyright 2018 dustinface
 #
@@ -32,7 +32,7 @@ from src import database
 from src import telegram
 from src import discord
 
-from src.stashnodes import StashNodeList
+from src.stashnodes import MasterNodeList
 
 from stashpay.rpc import RPCConfig
 #from stashpay.rewardlist import SNRewardList
@@ -126,7 +126,7 @@ def main(argv):
     githubPassword = config.get('general','githubpassword')
 
     # Create the stashnode list
-    nodeList = StashNodeList(nodedb, rpcConfig)
+    nodeList = MasterNodeList(nodedb, rpcConfig)
 
     # Create the stashnode reward list
     #rewardList = SNRewardList(directory + '/rewards.db', rpcConfig)
@@ -134,9 +134,9 @@ def main(argv):
     nodeBot = None
 
     if config.get('bot', 'app') == 'telegram':
-        nodeBot = telegram.StashNodeBotTelegram(config.get('bot','token'), admins, password, botdb, nodeList)
+        nodeBot = telegram.MasterNodeBotTelegram(config.get('bot','token'), admins, password, botdb, nodeList)
     elif config.get('bot', 'app') == 'discord':
-        nodeBot = discord.StashNodeBotDiscord(config.get('bot','token'), admins, password, botdb, nodeList)
+        nodeBot = discord.MasterNodeBotDiscord(config.get('bot','token'), admins, password, botdb, nodeList)
     else:
         sys.exit("You need to set 'telegram' or 'discord' as 'app' in the configfile.")
 

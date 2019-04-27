@@ -1,5 +1,5 @@
 ##
-# Part of `StashNodeMonitorBot`
+# Part of `MasterNodeMonitorBot`
 #
 # Copyright 2018 dustinface
 #
@@ -118,7 +118,7 @@ class LastPaid(object):
 
         return self.transaction < other.transaction
 
-class StashNode(object):
+class MasterNode(object):
 
     def __init__(self, **kwargs):
 
@@ -269,7 +269,7 @@ class StashNode(object):
             return str(self.position)
 
     def cleanIp(self):
-        return self.ip.replace(':9678','')
+        return self.ip.replace(':9999','')
 
     def updateRank(self, rank):
         self.rank = int(rank)
@@ -283,7 +283,7 @@ class StashNode(object):
 
         return False
 
-class StashNodeList(object):
+class MasterNodeList(object):
 
     def __init__(self, db, rpcConfig):
 
@@ -295,7 +295,7 @@ class StashNodeList(object):
         self.qualifiedNormal = 0
         self.oldProtocol = 0
         self.newProtocol = 0
-        self.activeProtocol = 90028 # Default to 90028
+        self.activeProtocol = 70210 # Default to 90028
         self.countOldProtocol = 0
         self.countNewProtocol = 0
         self.enabledOldProtocol = 0
@@ -322,7 +322,7 @@ class StashNodeList(object):
         dbList = self.db.getNodes()
 
         for entry in dbList:
-                node = StashNode.fromDb(entry)
+                node = MasterNode.fromDb(entry)
                 self.nodes[node.collateral] = node
 
     def __enter__(self):
@@ -336,21 +336,21 @@ class StashNodeList(object):
         self.release()
 
     def acquire(self):
-        logger.info("StashNodeList acquire")
+        logger.info("MasterNodeList acquire")
         self.nodeListSem.acquire()
 
     def release(self):
-        logger.info("StashNodeList release")
+        logger.info("MasterNodeList release")
         self.nodeListSem.release()
 
     def start(self):
 
         if not self.running:
-            logger.info("Start StashNodeList!")
+            logger.info("Start MasterNodeList!")
             self.running = True
             self.startTimer(5)
         else:
-            raise Exception("StashNodeList already started!")
+            raise Exception("MasterNodeList already started!")
 
     def stop(self):
 
@@ -523,15 +523,15 @@ class StashNodeList(object):
             logger.warning("Node count differs too much! - DB {}, CLI {}".format(dbCount,len(rpcNodes)))
             return False
 
-        # Prevent reading during the calculations
-        self.acquire()
-
+        # # Prevent reading during the calculations
+        # self.acquire()
+        #
         # Reset the calculation vars
         self.qualifiedNormal = 0
 
         for key, data in rpcNodes.items():
 
-            collateral = Transaction.fromRaw(key)
+            collateral = Transaction.fromString(key)
 
             currentList.append(collateral)
 
@@ -540,7 +540,7 @@ class StashNodeList(object):
                 collateral.updateBlock(self.getCollateralAge(collateral.hash))
 
                 logger.info("Add node {}".format(key))
-                insert = StashNode.fromRaw(collateral, data)
+                insert = MasterNode.fromRaw(collateral, data)
 
                 id = self.db.addNode(collateral,insert)
 
@@ -689,7 +689,7 @@ class StashNodeList(object):
             self.remainingUpgradeModeDuration = self.calculateUpgradeModeDuration()
             logger.info("calculateUpgradeModeDuration done {}".format("Success" if self.remainingUpgradeModeDuration else "Error?"))
 
-        self.release()
+        #self.release()
 
         #####
         ## Invoke the callback if we have new nodes or nodes left
@@ -701,6 +701,7 @@ class StashNodeList(object):
         if len(removedNodes) and self.networkCB:
             self.networkCB(removedNodes, False)
 
+        logger.info("calculatePositions finished")
         return True
 
     def updateRanks(self):
@@ -745,6 +746,8 @@ class StashNodeList(object):
         if self.protocolRequirement() == self.oldProtocol:
             return self.enabledOldProtocol + self.enabledNewProtocol
         elif self.protocolRequirement() == self.newProtocol:
+            return self.enabledNewProtocol
+        elif self.protocolRequirement() == self.activeProtocol:
             return self.enabledNewProtocol
 
     def minimumRequirementsScale(self):
@@ -830,8 +833,8 @@ class StashNodeList(object):
 
     def getNodeByIp(self, ip):
 
-        if not ':9678' in ip:
-            ip += ":9678"
+        if not ':9999' in ip:
+            ip += ":9999"
 
         filtered = list(filter(lambda x: x.ip == ip, self.nodes.values()))
 

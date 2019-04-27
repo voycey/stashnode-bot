@@ -1,5 +1,5 @@
 ##
-# Part of `StashNodeMonitorBot`
+# Part of `MasterNodeMonitorBot`
 #
 # Copyright 2018 dustinface
 #
@@ -353,7 +353,7 @@ class NodeDatabase(object):
 
         node = None
 
-        search = "{}:9678".format(ip)
+        search = "{}:9999".format(ip)
 
         with self.connection as db:
 

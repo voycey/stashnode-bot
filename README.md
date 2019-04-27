@@ -1,4 +1,4 @@
-# StashNodeMonitorBot
+# MasterNodeMonitorBot
 
 Shamelessly copied from https://github.com/xdustinface/SmartNodeMonitorBot.
 
