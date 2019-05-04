@@ -112,7 +112,7 @@ def welcome(messenger):
     message += " Examples:\n"
     message += "  <b>-<b> <cb>detail<ca> To get a detailed view of your nodes\n"
     message += "  <b>-<b> <cb>balance<ca> To check your nodes Stash balances\n"
-    message += "  <b>-<b> <cb>history<ca> To show information about your payout history\n\n"
+    # message += "  <b>-<b> <cb>history<ca> To show information about your payout history\n\n"
     message += " To get a full list of the possible commands just send me <cb>help<ca>\n\n"
     message += " Please be aware this is a super alpha Bot - it is likely to be buggy to start with\n\n"
     message += "If you want to support my creator (@the1dv) \n\n"

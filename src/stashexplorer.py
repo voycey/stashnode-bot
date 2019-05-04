@@ -53,7 +53,7 @@ class Request(object):
         self.error = None
 
     def futureCB(self, future):
-
+        self.future = future
         try:
             self.result = self.future.result()
             self.status = self.result.status_code
@@ -89,10 +89,7 @@ class WebExplorer(StashExplorer):
         super().__init__(balancesCB)
 
         self.lastUrl = 0
-        self.urls = {'https://explorer.stashpay.io':  lockForever,\
-                     'https://explorer2.stashpay.io': lockForever,\
-                     'https://explorer3.stashpay.io': lockForever,\
-                     'https://api-explorer.stashpay.io': None}
+        self.urls = {'https://explorer.stashpay.io/api': None}
 
         self.urlLockSeconds = 3600
         self.session = FuturesSession(max_workers=20)
@@ -149,7 +146,7 @@ class WebExplorer(StashExplorer):
 
         while True:
 
-            if not sum(map(lambda x: urlReady(x) ,self.urls.values())):
+            if not sum(map(lambda x: urlReady(x), self.urls.values())):
                 # If there is no unlocked url left
                 raise ValueError("No explorer url ready.")
 
@@ -163,7 +160,7 @@ class WebExplorer(StashExplorer):
     def balance(self, address):
 
         explorer = self.nextUrl()
-        requestUrl = "{}/api/stashexplorer/GetAddressBalance/{}".format(explorer,address)
+        requestUrl = "{}/addr/{}/?noTxList=1".format(explorer,address)
         logger.info("Add {}".format(requestUrl))
         future = self.session.get(requestUrl)
         return {'explorer' : explorer, 'future' : future}
@@ -177,7 +174,7 @@ class WebExplorer(StashExplorer):
         logger.info("Create balance check: {}".format(check))
 
         try:
-            self.checks[check] = list(map(lambda x: Request(x, self.balance(x.payee), self.backgroundCB), nodes ))
+            self.checks[check] = list(map(lambda x: Request(x, self.balance(x.payee), self.backgroundCB), nodes))
         except ValueError as e:
             logger.warning("balances {}".format(e))
             self.requestSem.release()
