@@ -1,4 +1,4 @@
-# MasterNodeMonitorBot
+# Stashpay MasterNode Monitor Bot
 
 Started from https://github.com/xdustinface/SmartNodeMonitorBot.
 Requires https://github.com/voycey/python-stashpay
